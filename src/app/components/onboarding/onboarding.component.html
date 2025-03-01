@@ -1,1 +1,64 @@
-<p>onboarding works!</p>
+<div class="onboarding-container">
+  <mat-toolbar color="primary">
+    <span>Welcome to HR Shorthand</span>
+  </mat-toolbar>
+
+  <mat-card class="mat-elevation-z4">
+    <mat-card-title>Purpose of the Survey</mat-card-title>
+    <mat-card-content>
+      <p>
+        Our daily 1-minute survey is designed to help you feel heard and engaged.
+        Your feedback helps us understand:
+      </p>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon color="primary">visibility</mat-icon>
+          Awareness of company vision
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary">thumb_up</mat-icon>
+          Self-assessment as an asset to the company
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary">assignment</mat-icon>
+          Clarity on job expectations
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary">group</mat-icon>
+          Coworker support and collaboration
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="primary">star_rate</mat-icon>
+          Job satisfaction and improvement suggestions
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="mat-elevation-z4">
+    <mat-card-title>Incentive System</mat-card-title>
+    <mat-card-content>
+      <p>
+        We value your feedback! Consistent participation unlocks:
+      </p>
+      <mat-list>
+        <mat-list-item>
+          <mat-icon color="accent">emoji_events</mat-icon>
+          Recognition badges
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="accent">redeem</mat-icon>
+          Points redeemable for company perks
+        </mat-list-item>
+        <mat-list-item>
+          <mat-icon color="accent">record_voice_over</mat-icon>
+          Shout-outs in team meetings
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+
+  <button mat-raised-button color="primary" (click)="startSurvey()">
+    Start Survey
+  </button>
+</div>

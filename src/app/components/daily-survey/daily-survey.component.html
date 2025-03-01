@@ -1,46 +1,48 @@
-<div class="container mat-elevation-z4" fxLayout="column" fxLayoutGap="20px" style="margin: 20px; padding: 20px;">
+<div class="container">
   <mat-toolbar color="primary">
     <span>Daily Survey</span>
   </mat-toolbar>
 
-  <form [formGroup]="surveyForm" (ngSubmit)="goToSummary()" fxLayout="column" fxLayoutGap="15px">
-    <!-- Employee ID and Date -->
-    <mat-form-field appearance="outline">
-      <mat-label>Employee ID</mat-label>
-      <input matInput formControlName="employee_id" placeholder="Enter your Employee ID">
-    </mat-form-field>
+  <mat-card class="survey-card">
+    <form [formGroup]="surveyForm" (ngSubmit)="goToSummary()">
+      <!-- Employee ID and Date -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Employee ID</mat-label>
+        <input matInput formControlName="employee_id" placeholder="Enter your Employee ID">
+      </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Date</mat-label>
-      <input matInput formControlName="survey_date" type="date">
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Date</mat-label>
+        <input matInput formControlName="survey_date" type="date">
+      </mat-form-field>
 
-    <!-- Dynamic Survey Question -->
-    <div *ngIf="questions.length">
-      <div *ngIf="currentQuestionIndex < questions.length">
-        <h3>{{ questions[currentQuestionIndex] }}</h3>
-        <mat-form-field appearance="outline" class="w-100">
-          <mat-label>Your Answer</mat-label>
-          <input matInput [formControlName]="'q' + currentQuestionIndex" placeholder="Type your answer">
-        </mat-form-field>
+      <!-- Dynamic Survey Question -->
+      <div *ngIf="questions().length">
+        <div *ngIf="currentQuestionIndex() < questions().length">
+          <h3>{{ questions()[currentQuestionIndex()] }}</h3>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Your Answer</mat-label>
+            <input matInput formControlName="answer" placeholder="Type your answer">
+          </mat-form-field>
+        </div>
       </div>
-    </div>
 
-    <!-- Navigation Buttons -->
-    <div fxLayout="row" fxLayoutAlign="space-between center">
-      <button mat-raised-button color="accent" type="button" (click)="previous()" [disabled]="currentQuestionIndex === 0">
-        Previous
-      </button>
-      <button mat-raised-button color="accent" type="button" (click)="next()" [disabled]="currentQuestionIndex === questions.length - 1">
-        Next
-      </button>
-      <button mat-raised-button color="primary" type="submit" *ngIf="currentQuestionIndex === questions.length - 1">
-        Submit Survey
-      </button>
-    </div>
+      <!-- Navigation Buttons -->
+      <div class="button-group">
+        <button mat-raised-button color="accent" type="button" (click)="previous()" [disabled]="currentQuestionIndex() === 0">
+          Previous
+        </button>
+        <button mat-raised-button color="accent" type="button" (click)="next()" [disabled]="currentQuestionIndex() === questions().length - 1">
+          Next
+        </button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="currentQuestionIndex() === questions().length - 1">
+          Submit Survey
+        </button>
+      </div>
 
-    <!-- Progress Bar -->
-    <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
-    <p class="text-center">{{ progress | number:'1.0-0' }}% completed</p>
-  </form>
+      <!-- Progress Bar -->
+      <mat-progress-bar mode="determinate" [value]="progress()"></mat-progress-bar>
+      <p class="text-center">{{ progress() | number:'1.0-0' }}% completed</p>
+    </form>
+  </mat-card>
 </div>

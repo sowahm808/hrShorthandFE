@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { SurveyService } from '../../services/survey.service';
 import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-rewards',
-  imports: [MatCardModule,MatToolbarModule],
+  imports: [MatCardModule,MatToolbarModule, CommonModule],
   templateUrl: './rewards.component.html',
   styleUrl: './rewards.component.scss'
 })
