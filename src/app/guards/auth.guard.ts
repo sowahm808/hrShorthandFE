@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +7,15 @@ import { Observable } from 'rxjs';
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
-  canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    const isAuthenticated = !!localStorage.getItem('token'); // Check if token is present
+  canActivate(): boolean {
+    const token = localStorage.getItem('token');
+    if (token) {
+      console.log("toke inside authgaurd",token)
 
-    if (isAuthenticated) {
       return true;
     } else {
-      // Redirect to login page if not authenticated
-      return this.router.createUrlTree(['/login']);
+      this.router.navigate(['/login']);
+      return false;
     }
   }
 }

@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SurveyService {
   private apiUrl = 'http://127.0.0.1:8000/api';
-
-  constructor(private http: HttpClient) {}
+  private googleUrl ='http://127.0.0.1:8000/api'
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   /**
    * Get CSRF token for Laravel Sanctum
@@ -17,7 +21,15 @@ export class SurveyService {
   getCsrfCookie(): Observable<any> {
     return this.http.get(`${this.apiUrl}/sanctum/csrf-cookie`, { withCredentials: true });
   }
-
+  private getAuthHeaders() {
+    const token = localStorage.getItem('token');
+    return {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      }),
+      withCredentials: true
+    };
+  }
   /**
    * Fetch survey questions
    */
@@ -43,14 +55,18 @@ export class SurveyService {
   /**
    * Fetch analytics for management dashboard
    */
+  // getDashboardData(): Observable<any> {
+  //   return this.http.get(`${this.apiUrl}/dashboard`, {
+  //     withCredentials: true
+  //   }).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
   getDashboardData(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/dashboard`, {
-      withCredentials: true
-    }).pipe(
+    return this.http.get(`${this.apiUrl}/dashboard`, this.getAuthHeaders()).pipe(
       catchError(this.handleError)
     );
   }
-
   /**
    * Retrieve rewards data for the current employee
    */
@@ -77,14 +93,24 @@ export class SurveyService {
   /**
    * Login method to authenticate an employee
    */
+  // login(credentials: any): Observable<any> {
+  //   return this.http.post(`${this.apiUrl}/login`, credentials, {
+  //     withCredentials: true
+  //   }).pipe(
+  //     catchError(this.handleError)
+  //   );
+  // }
   login(credentials: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials, {
-      withCredentials: true
-    }).pipe(
+    return this.http.post(`${this.apiUrl}/login`, credentials, { withCredentials: true }).pipe(
+      tap((response: any) => {
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('role', response.employee.role); // Store role in localStorage
+        this.router.navigate([response.redirect_to]); // Navigate based on role
+      }),
       catchError(this.handleError)
     );
   }
-
+  
   /**
    * Logout method to end the current session
    */
@@ -117,6 +143,69 @@ export class SurveyService {
       catchError(this.handleError)
     );
   }
+  // Redirect to Google OAuth
+  loginWithGoogle() {
+    window.location.href = `${this.googleUrl}/auth/google`;  // Redirect the user to Google login
+  }
+
+  // Handle Google callback
+  // handleGoogleCallback(code: string) {
+  //   return this.http.get(`${this.googleUrl}/auth/google/callback?code=${code}`, {
+  //     withCredentials: true // Ensures cookies are sent
+  //   });
+  // }
+  handleGoogleCallback(code: string): Observable<any> {
+    return this.http.get(`${this.googleUrl}/auth/google/callback?code=${code}`, { withCredentials: true }).pipe(
+      tap((response: any) => {
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('role', response.employee.role); // Store role
+  
+          // Redirect based on role
+          const redirectPath = response.employee.role === 'admin' ? '/admin/dashboard' : '/user/dashboard';
+          this.router.navigate([redirectPath]);
+        } else {
+          console.error('No token received');
+        }
+      }),
+      catchError(this.handleError)
+    );
+  }
+  
+
+  /**
+ * Add a new survey question
+ */
+addQuestion(questionData: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/questions`, questionData, {
+    withCredentials: true
+  }).pipe(
+    catchError(this.handleError)
+  );
+}
+
+/**
+ * Update an existing survey question
+ */
+updateQuestion(questionId: number, questionData: any): Observable<any> {
+  return this.http.put(`${this.apiUrl}/questions/${questionId}`, questionData, {
+    withCredentials: true
+  }).pipe(
+    catchError(this.handleError)
+  );
+}
+
+/**
+ * Delete a survey question
+ */
+deleteQuestion(questionId: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/questions/${questionId}`, {
+    withCredentials: true
+  }).pipe(
+    catchError(this.handleError)
+  );
+}
+
 
   /**
    * Helper method: Retrieve employee ID from localStorage (adjust as needed)

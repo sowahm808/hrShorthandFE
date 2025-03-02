@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { SurveyService } from '../../services/survey.service';
@@ -22,7 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 
   ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
   loginForm: FormGroup;
 
   constructor(
@@ -36,6 +36,14 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit(): void {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
+  
+
   onSubmit(): void {
     if (this.loginForm.valid) {
       // Get CSRF Cookie first
@@ -43,6 +51,7 @@ export class LoginComponent {
         // Then proceed to login
         this.surveyService.login(this.loginForm.value).subscribe(response => {
           localStorage.setItem('token', response.token);
+          localStorage.setItem('role', response.employee.role); // Store role in localStorage
           this.router.navigate(['/dashboard']);
         }, error => {
           console.error('Login failed', error);
@@ -51,7 +60,11 @@ export class LoginComponent {
       });
     }
   }
-  loginWithGoogle(): void {
-    window.location.href = 'http://127.0.0.1:8000/auth/google';
+
+
+  loginWithGoogle() {
+    //this.surveyService.loginWithGoogle(); // Redirects to Google login
+    window.location.href = 'http://127.0.0.1:8000/api/auth/google';
+
   }
 }
