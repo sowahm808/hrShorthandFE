@@ -1,21 +1,29 @@
-<div class="container mat-elevation-z4" fxLayout="column" fxLayoutGap="20px" style="margin: 20px; padding: 20px;">
-  <mat-toolbar color="primary">
+<div class="rewards-container mat-elevation-z4" fxLayout="column" fxLayoutGap="20px">
+  <mat-toolbar color="primary" class="toolbar">
     <span>Your Rewards</span>
   </mat-toolbar>
 
-  <div fxLayout="column" fxLayoutGap="15px">
-    <mat-card>
-      <mat-card-title>Points</mat-card-title>
+  <div class="rewards-grid" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+    <!-- Points Card -->
+    <mat-card class="reward-card">
+      <mat-card-header>
+        <mat-icon color="accent" class="reward-icon">stars</mat-icon>
+        <mat-card-title>Points</mat-card-title>
+      </mat-card-header>
       <mat-card-content>
         <h2>{{ rewards.points }}</h2>
       </mat-card-content>
     </mat-card>
 
-    <mat-card>
-      <mat-card-title>Badges Earned</mat-card-title>
+    <!-- Badges Card -->
+    <mat-card class="reward-card">
+      <mat-card-header>
+        <mat-icon color="accent" class="reward-icon">military_tech</mat-icon>
+        <mat-card-title>Badges Earned</mat-card-title>
+      </mat-card-header>
       <mat-card-content>
         <ng-container *ngIf="rewards.badges?.length; else noBadges">
-          <p>{{ rewards.badges.join(', ') }}</p>
+          <p class="badges-text">{{ rewards.badges.join(', ') }}</p>
         </ng-container>
         <ng-template #noBadges>
           <p>No badges earned yet.</p>

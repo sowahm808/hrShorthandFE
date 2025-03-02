@@ -13,7 +13,7 @@ export class AdminGuard implements CanActivate {
     if (role === 'admin') {
       return true;
     }else{
-      this.router.navigate(['/dashboard']); // Redirect non-admins to dashboard
+      this.router.navigate(['/survey']); // Redirect non-admins to dashboard
       return false;
     }
   

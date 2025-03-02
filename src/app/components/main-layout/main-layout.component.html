@@ -1,0 +1,53 @@
+<mat-toolbar color="primary" class="top-toolbar">
+  <button mat-icon-button (click)="toggleSidebar()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span *ngIf="isAdmin; else userTitle">Admin Dashboard</span>
+  <ng-template #userTitle><span>User Dashboard</span></ng-template>
+  <span class="spacer"></span>
+  <button mat-icon-button>
+    <mat-icon>account_circle</mat-icon>
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="admin-container">
+
+  <!-- Sidebar Navigation (Dynamic for Admins & Users) -->
+  <mat-sidenav mode="side" [(opened)]="isSidebarOpen" class="sidenav">
+    <mat-toolbar color="primary" class="sidenav-header">
+      <span *ngIf="isAdmin">Admin Panel</span>
+      <span *ngIf="!isAdmin">User Menu</span>
+    </mat-toolbar>
+
+    <mat-nav-list *ngIf="isAdmin; else userLinks">
+      <a mat-list-item routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+      <a mat-list-item routerLink="/admin/questions" routerLinkActive="active">Manage Questions</a>
+      <a mat-list-item routerLink="/admin/survey-summary" routerLinkActive="active">Survey Summary</a>
+      <a mat-list-item routerLink="/admin/user-management" routerLinkActive="active">User Management</a>
+      <a mat-list-item routerLink="/admin/reports" routerLinkActive="active">Reports & Analytics</a>
+      <a mat-list-item routerLink="/admin/settings" routerLinkActive="active">System Settings</a>
+      <a mat-list-item (click)="logout()">Logout</a>
+    </mat-nav-list>
+
+    <!-- User Navigation -->
+    <ng-template #userLinks>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/user/dashboard" routerLinkActive="active">Home</a>
+        <a mat-list-item routerLink="/user/onboarding" routerLinkActive="active">Onboarding</a>
+        <a mat-list-item routerLink="/user/survey" routerLinkActive="active">Daily Survey</a>
+        <a mat-list-item routerLink="/user/rewards" routerLinkActive="active">Rewards</a>
+        <a mat-list-item routerLink="/user/perks" routerLinkActive="active">Perks</a>
+        <a mat-list-item (click)="logout()">Logout</a>
+      </mat-nav-list>
+    </ng-template>
+
+  </mat-sidenav>
+
+  <!-- Main Content Area -->
+  <mat-sidenav-content class="main-content">
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -21,12 +21,23 @@ import { MatListModule } from '@angular/material/list';
     MatListModule
   ]
 })
-export class OnboardingComponent {
+export class OnboardingComponent implements OnInit{
 
   constructor(private router: Router) {}
 
+  ngOnInit(): void {
+    const hasProfile = localStorage.getItem('hasProfile') === 'true';
+
+    if (hasProfile) {
+      // 🛑 If user already has a profile, skip onboarding and go to survey
+      this.router.navigate(['/user/survey']);
+    }
+  }
   startSurvey(): void {
-    // Navigate to the first survey question
-    this.router.navigate(['/survey']);
+    // ✅ Mark onboarding as complete
+    localStorage.setItem('hasProfile', 'true');
+
+    // 🚀 Redirect user to the survey
+    this.router.navigate(['/user/survey']);
   }
 }

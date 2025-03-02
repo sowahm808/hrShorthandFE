@@ -3,10 +3,11 @@ import { SurveyService } from '../../services/survey.service';
 import {MatCardModule} from '@angular/material/card';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-rewards',
-  imports: [MatCardModule,MatToolbarModule, CommonModule],
+  imports: [MatCardModule,MatToolbarModule, CommonModule,MatIconModule],
   templateUrl: './rewards.component.html',
   styleUrl: './rewards.component.scss'
 })

@@ -1,0 +1,13 @@
+<div class="perks-container">
+  <h2>Company Perks</h2>
+  <div *ngIf="perks && perks.length > 0; else noPerks">
+    <div *ngFor="let perk of perks" class="perk-card">
+      <h3>{{ perk.name }}</h3>
+      <p>{{ perk.description }}</p>
+      <!-- Optionally show more details, images, etc. -->
+    </div>
+  </div>
+  <ng-template #noPerks>
+    <p>No perks available at the moment.</p>
+  </ng-template>
+</div>

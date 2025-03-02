@@ -1,26 +1,26 @@
 <div class="container">
-  <mat-toolbar color="primary">
+  <mat-toolbar color="primary" class="toolbar">
     <span>Daily Survey</span>
   </mat-toolbar>
 
   <mat-card class="survey-card">
-    <form [formGroup]="surveyForm" (ngSubmit)="goToSummary()">
+    <form [formGroup]="surveyForm" (ngSubmit)="goToSummary()" fxLayout="column" fxLayoutGap="20px">
       <!-- Employee ID and Date -->
-      <mat-form-field appearance="outline" class="w-100">
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Employee ID</mat-label>
         <input matInput formControlName="employee_id" placeholder="Enter your Employee ID">
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="w-100">
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Date</mat-label>
         <input matInput formControlName="survey_date" type="date">
       </mat-form-field>
 
       <!-- Dynamic Survey Question -->
       <div *ngIf="questions().length">
-        <div *ngIf="currentQuestionIndex() < questions().length">
-          <h3>{{ questions()[currentQuestionIndex()] }}</h3>
-          <mat-form-field appearance="outline" class="w-100">
+        <div *ngIf="currentQuestionIndex() < questions().length" class="question-section">
+          <h3 class="question-text">{{ questions()[currentQuestionIndex()].text }}</h3>
+          <mat-form-field appearance="outline" class="full-width">
             <mat-label>Your Answer</mat-label>
             <input matInput formControlName="answer" placeholder="Type your answer">
           </mat-form-field>
@@ -28,7 +28,7 @@
       </div>
 
       <!-- Navigation Buttons -->
-      <div class="button-group">
+      <div class="button-group" fxLayout="row" fxLayoutAlign="space-between center">
         <button mat-raised-button color="accent" type="button" (click)="previous()" [disabled]="currentQuestionIndex() === 0">
           Previous
         </button>
@@ -39,10 +39,10 @@
           Submit Survey
         </button>
       </div>
-
+<br />
       <!-- Progress Bar -->
       <mat-progress-bar mode="determinate" [value]="progress()"></mat-progress-bar>
-      <p class="text-center">{{ progress() | number:'1.0-0' }}% completed</p>
+      <p class="progress-text text-center">{{ progress() | number:'1.0-0' }}% completed</p>
     </form>
   </mat-card>
 </div>

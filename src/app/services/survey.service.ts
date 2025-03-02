@@ -90,16 +90,12 @@ export class SurveyService {
     );
   }
 
-  /**
-   * Login method to authenticate an employee
-   */
-  // login(credentials: any): Observable<any> {
-  //   return this.http.post(`${this.apiUrl}/login`, credentials, {
-  //     withCredentials: true
-  //   }).pipe(
-  //     catchError(this.handleError)
-  //   );
-  // }
+  getPerks(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/perks`, { withCredentials: true })
+      .pipe(catchError(this.handleError));
+  }
+
+  
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials, { withCredentials: true }).pipe(
       tap((response: any) => {
