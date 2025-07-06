@@ -76,6 +76,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -132,7 +133,7 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithGoogle() {
-    window.location.href = 'http://127.0.0.1:8000/api/auth/google';
+    window.location.href = `${environment.apiUrl}/auth/google`;
   }
 
   /** 🔹 Redirects user based on profile status */
