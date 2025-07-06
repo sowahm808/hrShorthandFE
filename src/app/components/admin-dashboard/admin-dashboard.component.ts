@@ -1,7 +1,7 @@
 import { Constructor } from './../../../../node_modules/@angular/cdk/schematics/update-tool/migration.d';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';  // Fix: Import MatIconModule
@@ -14,8 +14,6 @@ import { SurveyService } from '../../services/survey.service';
   standalone: true, // Fix: Explicitly declare as a standalone component
   imports: [
     CommonModule, 
-    RouterOutlet, 
-    RouterLink,
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule, // Fix: Import as module

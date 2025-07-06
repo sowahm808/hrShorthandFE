@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card';
   templateUrl: './thank-you.component.html',
   styleUrls: ['./thank-you.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatCardModule, RouterLink]
+  imports: [CommonModule, MatButtonModule, MatCardModule]
 })
 export class ThankYouComponent {
   constructor(private router: Router) {}
