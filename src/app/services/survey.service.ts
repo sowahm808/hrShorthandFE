@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SurveyService {
-  private apiUrl = 'http://127.0.0.1:8000/api';
-  private googleUrl ='http://127.0.0.1:8000/api'
+  private apiUrl = environment.apiUrl;
+  private googleUrl = environment.apiUrl;
   constructor(
     private http: HttpClient,
     private router: Router

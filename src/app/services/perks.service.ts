@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PerksService {
-  private apiUrl = 'http://127.0.0.1:8000/api/perks';  // Your Laravel endpoint
+  private apiUrl = `${environment.apiUrl}/perks`;  // Your Laravel endpoint
 
   constructor(private http: HttpClient) { }
 
