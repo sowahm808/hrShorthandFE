@@ -4,11 +4,15 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Development server
 
-To start a local development server, run:
+To start a local development server without running into CORS issues, run:
 
 ```bash
-ng serve
+npm start
 ```
+
+The `npm start` script uses `proxy.conf.json` to forward API requests to
+`http://127.0.0.1:8000`, which allows the Angular app to communicate with the
+backend during development.
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
